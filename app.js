@@ -32,23 +32,34 @@ app.get('/api/genres/:id', (req, res) => {
 });
 
 app.post('/api/genres', (req, res) => {
-    const schema = Joi.object({
-        name: Joi.string().min(3).required(),
-    });
-
-    const result = schema.validate(req.body);
-
+    const { error } = validateGenre(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
     const genre = {
         id: genres.length+1, 
         name: req.body.name,
-    };
+    }
 
     genres.push(genre);
+    writeGenresToJson(genres);
+    
     return res.status(201).send(genre);
 });
 
+function validateGenre(genre) {
+    return Joi.object({
+        name: Joi.string().min(3).required(),
+    }).validate(genre);
+}
 
+function writeGenresToJson(genres) {
+    fs.writeFile(`${__dirname}/data/data.json`, JSON.stringify(genres), err => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+    });
+}
 
 app.listen(port, () => {
     console.log(`Listening on port: ${port}`);
