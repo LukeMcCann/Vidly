@@ -1,6 +1,8 @@
 'use strict';
 
 require('dotenv').config();
+const startupDebugger = require('debug')('app:startup');
+const dbDebugger = require('debug')('app:db');
 
 const port = process.env.PORT || 3000;
 
@@ -36,8 +38,11 @@ app.use(helmet()); // Secure HTTP headers
 
 if (app.get('env') === 'development') {
     app.use(morgan('tiny')); // Logger middleware
-    console.log('Morgan enabled!');
+    startupDebugger('Morgan enabled...');
 }
+
+// Connect to DB
+ dbDebugger('Connected to the database...');
 
 app.use(auth);
 app.use(logger); // add Custom middleware
