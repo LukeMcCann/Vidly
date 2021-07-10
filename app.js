@@ -10,6 +10,7 @@ const app = express();
 const logger = require('./logger');
 const auth = require('./authenticator');
 
+const config = require('config');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const fs = require('fs');
@@ -17,6 +18,8 @@ const Joi = require('joi');
 
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`); // Print NODE_ENV, undefined if not set
 console.log(`app: ${app.get('env')}`); // Print NODE_ENV, defaults to development
+console.log(`Application Name ${config.get('name')}`);
+console.log(`Mail Host ${config.get('mail.host')}`);
 
 let genres = [];
 
