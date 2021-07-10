@@ -6,6 +6,9 @@ const port = process.env.PORT || 3000;
 
 const logger = require('./logger');
 const auth = require('./authenticator');
+
+const morgan = require('morgan');
+const helmet = require('helmet');
 const fs = require('fs');
 const express = require('express');
 const Joi = require('joi');
@@ -20,9 +23,12 @@ fs.readFile(`${__dirname}/data/data.json`, (err, data) => {
 
 app.use(express.json()); // add Json middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.use(helmet()); // Secure HTTP headers
+app.use(morgan('tiny')); // Logger middleware
+
 app.use(auth);
 app.use(logger); // add Custom middleware
-app.use(express.static('public'));
 
 app.get('/api/genres', (req, res) => {
     return res.status(200).send(genres);
