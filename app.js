@@ -31,6 +31,9 @@ fs.readFile(`${__dirname}/data/data.json`, (err, data) => {
     genres = JSON.parse(data);
 });
 
+app.set('view engine', 'pug');
+app.set('views', './views'); // optional, currently set to default
+
 app.use(express.json()); // add Json middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -46,6 +49,13 @@ if (app.get('env') === 'development') {
 
 app.use(auth);
 app.use(logger); // add Custom middleware
+
+app.get('/pug', (req, res) => {
+    res.render('index', { 
+        title: 'Pug Template',
+        message: 'Hello Pug!',
+    });
+});
 
 app.get('/api/genres', (req, res) => {
     return res.status(200).send(genres);
