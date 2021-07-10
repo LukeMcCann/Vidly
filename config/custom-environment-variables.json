@@ -1,0 +1,7 @@
+{
+    "name": "Vidly - Development",
+    "mail": {
+        "host": "dev-mail-server",
+        "password": "app_password"
+    }
+}

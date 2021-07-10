@@ -20,6 +20,7 @@ console.log(`NODE_ENV: ${process.env.NODE_ENV}`); // Print NODE_ENV, undefined i
 console.log(`app: ${app.get('env')}`); // Print NODE_ENV, defaults to development
 console.log(`Application Name ${config.get('name')}`);
 console.log(`Mail Host ${config.get('mail.host')}`);
+console.log(`Mail Password: ${config.get('mail.password')}`);
 
 let genres = [];
 
