@@ -4,15 +4,19 @@ require('dotenv').config();
 
 const port = process.env.PORT || 3000;
 
+const express = require('express');
+const app = express();
+
 const logger = require('./logger');
 const auth = require('./authenticator');
 
 const morgan = require('morgan');
 const helmet = require('helmet');
 const fs = require('fs');
-const express = require('express');
 const Joi = require('joi');
-const app = express();
+
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`); // Print NODE_ENV, undefined if not set
+console.log(`app: ${app.get('env')}`); // Print NODE_ENV, defaults to development
 
 let genres = [];
 
@@ -25,7 +29,11 @@ app.use(express.json()); // add Json middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(helmet()); // Secure HTTP headers
-app.use(morgan('tiny')); // Logger middleware
+
+if (app.get('env') === 'development') {
+    app.use(morgan('tiny')); // Logger middleware
+    console.log('Morgan enabled!');
+}
 
 app.use(auth);
 app.use(logger); // add Custom middleware
