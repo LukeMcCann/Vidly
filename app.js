@@ -59,6 +59,17 @@ app.put('/api/genres/:id', (req, res) => {
     return res.send(genre);
 });
 
+app.delete('/api/genres/:id', (req, res) => {
+    const genre = genres.find(g => g.id === parseInt(req.params.id));
+    if (!genre) return res.status(404).send('404 Not Found!');
+
+    const index = genres.indexOf(genre);
+    genres.splice(index, 1);
+    writeGenresToJson(genres);
+
+    return res.status(204).send(genre);
+});
+
 function validateGenre(genre) {
     return Joi.object({
         name: Joi.string().min(3).required(),
