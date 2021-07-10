@@ -19,12 +19,10 @@ fs.readFile(`${__dirname}/data/data.json`, (err, data) => {
 });
 
 app.use(express.json()); // add Json middleware
+app.use(express.urlencoded({ extended: true }));
 app.use(auth);
 app.use(logger); // add Custom middleware
-
-app.get('/', (req, res) => {
-    return res.status(200).send('Welcome to Vidly API!');
-});
+app.use(express.static('public'));
 
 app.get('/api/genres', (req, res) => {
     return res.status(200).send(genres);
