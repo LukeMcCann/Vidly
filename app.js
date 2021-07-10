@@ -16,7 +16,17 @@ fs.readFile(`${__dirname}/data/data.json`, (err, data) => {
     genres = JSON.parse(data);
 });
 
-app.use(express.json());
+app.use(express.json()); // add Json middleware
+app.use((req, res, next) => {
+    console.log('Logging...');
+    next();
+}); // add Custom middleware
+app.use((req, res, next) => {
+    console.log('Authenticating...');
+    next();
+}); // Middleware functions are called in sequence
+    // If we don't hand over to the next middleware to return to the user
+    // our application will hang.
 
 app.get('/', (req, res) => {
     return res.status(200).send('Welcome to Vidly API!');
