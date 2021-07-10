@@ -27,6 +27,8 @@ app.use((req, res, next) => {
 }); // Middleware functions are called in sequence
     // If we don't hand over to the next middleware to return to the user
     // our application will hang.
+    // to Keep our code clean each middleware function
+    // should have it's own separate file/module.
 
 app.get('/', (req, res) => {
     return res.status(200).send('Welcome to Vidly API!');
