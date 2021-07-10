@@ -5,6 +5,7 @@ require('dotenv').config();
 const port = process.env.PORT || 3000;
 
 const logger = require('./logger');
+const auth = require('./authenticator');
 const fs = require('fs');
 const express = require('express');
 const Joi = require('joi');
@@ -18,6 +19,7 @@ fs.readFile(`${__dirname}/data/data.json`, (err, data) => {
 });
 
 app.use(express.json()); // add Json middleware
+app.use(auth);
 app.use(logger); // add Custom middleware
 
 app.get('/', (req, res) => {
